@@ -86,10 +86,74 @@ const getUser = async (req:Request,res:Response)=>{
                     console.log(err)
                 }
                 }
+const findUserAndUpdateOrder = async (req:Request,res:Response)=>{
+    try{
+        const userId= parseInt(req.params.userId);
+        const updateUserOrder=req.body;
+        const result= await userServices.getUserbyIdAndUpdateOrder(userId);
+        if (!result) {
+            return res.status(404).json({ error: 'User not found' });
+          }
+        if (result.orders && result.orders.length > 0) {
+            result.orders.push(updateUserOrder);
+          } else {
+            result.orders = [updateUserOrder];
+          }
+          await result.save();
+
+    return res.status(200).json({ message: 'Order added successfully'});
+            }catch(err){
+                console.log(err);  
+            }
+            }
+            const getsingleUserOrder = async (req:Request,res:Response)=>{
+                try{
+                    const userId= parseInt(req.params.userId);
+                const result= await userServices.getUserbyIdAndOrder(userId);
+                if (result) {
+                    res.status(200).json({
+                        success : true,
+                        massage : 'User order get successfully!',
+                        data : result.orders
+                       })
+                  }else{
+                    return res.status(404).json({ error: 'User not found' });
+                  }
+                    
+                }catch(err){
+                    console.log(err)
+                }
+                }
+                const getsingleUserOrderPrice = async (req:Request,res:Response)=>{
+                    try{
+                        const userId= parseInt(req.params.userId);
+                    const result= await userServices.getUserbyIdAndOrder(userId); 
+                    if (result) {
+        
+                        const subtotals=result.orders?.map(order => order.price * order.quantity);
+                        const totalPrice = subtotals?.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                        res.status(200).json({
+                            success : true,
+                            massage : 'User order get successfully!',
+                            data :{
+                                "totalPrice": totalPrice
+                            } 
+                           })
+                      }else{
+                        return res.status(404).json({ error: 'User not found' });
+                      }
+                        
+                    }catch(err){
+                        console.log(err)
+                    }
+                    }
 export const userController = {
     createUser,
     getUser,
     getsingleUser,
     getUserAndUpdate,
-    userDelete
+    userDelete,
+    findUserAndUpdateOrder,
+    getsingleUserOrder,
+    getsingleUserOrderPrice
 }

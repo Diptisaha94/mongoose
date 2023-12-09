@@ -1,4 +1,4 @@
-import { User } from "./user.interface";
+import { Order, User } from "./user.interface";
 import { Usermodel } from "./user.model";
 
 const createUserintoDB=async(user:User)=>{
@@ -22,10 +22,21 @@ return result;
     const result = await Usermodel.findOneAndDelete({userId:id})
     return result;
      }
+const getUserbyIdAndUpdateOrder=async(id:number)=>{
+//const query={userId:id}
+const result = await Usermodel.findOne({userId:id})
+return result;
+}
+const getUserbyIdAndOrder=async(id:number)=>{
+    const result = await Usermodel.findOne({userId:id})
+    return result;
+    }
 export const userServices={
     createUserintoDB,
     getUserintoDB,
     getUserbyId,
     getUserbyIdAndUpdate,
-    getUserbyIdAndDelete
+    getUserbyIdAndDelete,
+    getUserbyIdAndUpdateOrder,
+    getUserbyIdAndOrder
 }
