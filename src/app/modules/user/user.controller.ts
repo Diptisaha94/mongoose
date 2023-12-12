@@ -127,11 +127,18 @@ const findUserAndUpdateOrder = async (req:Request,res:Response)=>{
                 if (result) {
                     res.status(200).json({
                         success : true,
-                        massage : 'User order get successfully!',
+                        massage : 'Order fetched successfully!',
                         data : result.orders
                        })
                   }else{
-                    return res.status(404).json({ error: 'User not found' });
+                    return res.status(404).json({
+                        "success": false,
+                        "message": "User not found",
+                        "error": {
+                            "code": 404,
+                            "description": "User not found!"
+                        }
+                    });
                   }
                     
                 }catch(err){
@@ -148,13 +155,20 @@ const findUserAndUpdateOrder = async (req:Request,res:Response)=>{
                         const totalPrice = subtotals?.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
                         res.status(200).json({
                             success : true,
-                            massage : 'User order get successfully!',
+                            massage : 'Total price calculated successfully!',
                             data :{
                                 "totalPrice": totalPrice
                             } 
                            })
                       }else{
-                        return res.status(404).json({ error: 'User not found' });
+                        return res.status(404).json({
+                            "success": false,
+                            "message": "User not found",
+                            "error": {
+                                "code": 404,
+                                "description": "User not found!"
+                            }
+                        });
                       }
                         
                     }catch(err){
