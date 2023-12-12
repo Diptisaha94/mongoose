@@ -29,7 +29,7 @@ const getUser = async (req:Request,res:Response)=>{
     
        res.status(200).json({
         success : true,
-        massage : 'User is get successfully',
+        massage : 'Users fetched successfully!',
         data : result
        })
     }catch(err){
@@ -60,7 +60,7 @@ const getUser = async (req:Request,res:Response)=>{
               if(result){
                 res.status(200).json({
                     success : true,
-                    massage : 'User fetched successfully!',
+                    massage : 'User updated successfully!',
                     data : result
                    })
               }else{
@@ -81,8 +81,8 @@ const getUser = async (req:Request,res:Response)=>{
                 if(result){
                     res.status(200).json({
                         success : true,
-                        massage : 'User fetched successfully!',
-                        data : result
+                        massage : 'User deleted successfully!',
+                        data : null
                        })
                   }else{
                     res.json({
@@ -109,7 +109,13 @@ const findUserAndUpdateOrder = async (req:Request,res:Response)=>{
           }
           await result.save();
 
-    return res.status(200).json({ message: 'Order added successfully'});
+    return res.status(200).json(
+        {
+            "success": true,
+            "message": "Order created successfully!",
+            "data": null
+        }
+    );
             }catch(err){
                 console.log(err);  
             }

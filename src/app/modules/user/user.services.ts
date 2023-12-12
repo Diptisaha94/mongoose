@@ -1,4 +1,4 @@
-import { Order, User } from "./user.interface";
+import { User } from "./user.interface";
 import { Usermodel } from "./user.model";
 
 const createUserintoDB=async(user:User)=>{
@@ -23,7 +23,6 @@ return result;
     return result;
      }
 const getUserbyIdAndUpdateOrder=async(id:number)=>{
-//const query={userId:id}
 const result = await Usermodel.findOne({userId:id})
 return result;
 }
