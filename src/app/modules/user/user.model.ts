@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 import { Address, Fullname, Order, User } from "./user.interface";
+import bcrypt from "bcrypt"
+import config from "../../config";
 
 const FullnameSchema= new Schema<Fullname>({
     firstName: {
@@ -55,7 +57,11 @@ const Userschema= new Schema<User>({
       required:true  
     },
     age:{type: Number,required:true},
-    email:{type: String,required:true},
+    email:{
+      type: String,    
+      required:true,
+      unique:true
+    },
     isActive:{
         type: Boolean,
       default: true
@@ -72,5 +78,16 @@ const Userschema= new Schema<User>({
         type: [OrderSchema] 
     }
 });
+Userschema.pre('save', async function(next){
+  const user = this;
+  const saltRounds=12;
+  user.password= await bcrypt.hash(user.password,saltRounds);
+  next();
+})
+Userschema.methods.toJSON = function () {
+  const userObject = this.toObject();
+  delete userObject.password;
+  return userObject;
+};
 
 export const Usermodel= model<User>('User', Userschema);
