@@ -1,4 +1,4 @@
-import { Schema, model, connect } from 'mongoose';
+
 export interface Fullname{
     firstName: string,
     lastName: string
