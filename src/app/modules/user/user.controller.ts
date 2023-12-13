@@ -41,11 +41,22 @@ const getUser = async (req:Request,res:Response)=>{
             const userId= parseInt(req.params.userId);
         const result= await userServices.getUserbyId(userId);
         
+        if(result){
             res.status(200).json({
                 success : true,
                 massage : 'User fetched successfully!',
                 data : result
                })
+        }else{
+            res.json({
+                "success": false,
+                "message": "User not found",
+                "error": {
+                    "code": 404,
+                    "description": "User not found!"
+                }
+            })
+        }
             
         }catch(err){
             console.log(err)
@@ -65,9 +76,13 @@ const getUser = async (req:Request,res:Response)=>{
                    })
               }else{
                 res.json({
-                    success : false,
-                    massage : 'User not found',
-                })
+                        "success": false,
+                        "message": "User not found",
+                        "error": {
+                            "code": 404,
+                            "description": "User not found!"
+                        }
+                    })
               }
             }catch(err){
                 console.log(err)
@@ -86,8 +101,12 @@ const getUser = async (req:Request,res:Response)=>{
                        })
                   }else{
                     res.json({
-                        success : false,
-                        massage : 'User not found',
+                        "success": false,
+                        "message": "User not found",
+                        "error": {
+                            "code": 404,
+                            "description": "User not found!"
+                        }
                     })
                   }
                 }catch(err){
